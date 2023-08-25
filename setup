@@ -1,0 +1,9 @@
+export CUDNN_PATH=/home/vitorhugo/docs/src/hochuli/tensorflow/venv/lib/python3.11/site-packages/nvidia/cudnn
+export LD_LIBRARY_PATH=CUDNN_PATH:$LD_LIBRARY_PATH
+export XLA_FLAGS=--xla_gpu_cuda_data_dir=/usr/lib/cuda/
+export TF_CPP_MIN_LOG_LEVEL=3
+source venv/bin/activate
+
+
+# Switch the backend to GTK3
+plt.switch_backend('GTK3Agg')
