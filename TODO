@@ -1,0 +1,22 @@
+Switch from custom img to array to Tensorflow's image to array.
+Do proper shuffling on the data.
+Tune the training model.
+Write a parser in order to actually run as a program and not
+just some blob.
+Maybe add normalization?
+Define inputs?
+Define a custom model?
+Define custom model training?
+Implement model saving and model loading, preferably, as an
+argument to the parser as well.
+Graphs: Loss
+	Prediction vs reality
+	(right at the beggining) Grid of images x labels
+Model checkpoints
+parser:
+	csv_1 (path, label)
+	csv_2 (path, label)
+	batch_size
+	nodes(density(model))
+	epochs
+	learning_rate
