@@ -1,4 +1,5 @@
 from PIL import Image
+from keras import layers
 from sklearn import metrics
 import csv
 import matplotlib.pyplot as plt
@@ -6,8 +7,8 @@ import numpy as np
 import os
 import tensorflow as tf
 
-path_test='/home/vitorhugo/docs/src/git/hochuli/pklot/filelist_test.txt'
-path_train='/home/vitorhugo/docs/src/git/hochuli/pklot/filelist_train.txt'
+path_test='./filelist_test.txt'
+path_train='./filelist_train.txt'
 plt.switch_backend('GTK3Agg')
 
 images_test = []
@@ -34,6 +35,7 @@ def convert_label(label):
 # tf.keras.utils.load_img and  tf.keras.utils.img_to_array
 # (Should be better performant and reliable(?)).
 def generate_arrays(csv_path, image_array, label_array):
+        rescaling_RGB = layers.Rescaling(1./255)
         with open(csv_path) as csvfile:
             conjunto = csv.reader(csvfile)
             for path, label in conjunto:
@@ -43,6 +45,8 @@ def generate_arrays(csv_path, image_array, label_array):
                 img_as_array = np.asarray(img)
                 image_array.append(img_as_array)
                 label_array.append(convert_label(label))
+        image_array = np.array(rescaling_RGB(image_array))
+
 
 generate_arrays(path_test, images_test, labels_test)
 generate_arrays(path_train, images_train, labels_train)
