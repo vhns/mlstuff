@@ -21,3 +21,4 @@ Write a parser in order to actually run as a program and not
 argument to the parser as well.
 just some blob.
 Model checkpoints
+Turn image and label arrays into Tensorflow slices
