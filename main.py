@@ -11,6 +11,8 @@ path_test='./filelist_test.txt'
 path_train='./filelist_train.txt'
 plt.switch_backend('GTK3Agg')
 
+BATCH_SIZE = 64
+
 images_test = []
 labels_test = []
 images_train = []
@@ -76,6 +78,13 @@ images_train = np.array(images_train, dtype='uint8')
 labels_test = np.array(labels_train, dtype='float32')
 images_test = np.array(images_train, dtype='uint8')
 
+# Turn arrays into datasets
+train_ds = tf.data.Dataset.from_tensor_slices((images_train, labels_train))
+test_ds = tf.data.Dataset.from_tensor_slices((images_test, labels_test))
+
+train_ds = train_ds.batch(BATCH_SIZE)
+test_ds = test_ds.batch(BATCH_SIZE)
+
 print(images_train.shape)
 print(labels_train.shape)
 
@@ -93,7 +102,7 @@ model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-model.fit(images_train, labels_train, epochs=50)
+model.fit(train_ds, epochs=50)
 
 test_loss, test_acc = model.evaluate(images_test,  labels_test, verbose=2)
 
