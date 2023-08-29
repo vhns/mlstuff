@@ -1,5 +1,6 @@
-PKLot
 *.hdf5
-*.txt
 *.img
+*.swp
+*.txt
+PKLot
 venv
