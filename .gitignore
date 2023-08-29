@@ -1,1 +1,5 @@
 PKLot
+*.hdf5
+*.txt
+*.img
+venv
