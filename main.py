@@ -12,6 +12,7 @@ path_train='./filelist_train.txt'
 plt.switch_backend('GTK3Agg')
 
 BATCH_SIZE = 64
+SHUFFLE_SIZE = 240
 
 images_test = []
 labels_test = []
@@ -82,8 +83,8 @@ images_test = np.array(images_train, dtype='uint8')
 train_ds = tf.data.Dataset.from_tensor_slices((images_train, labels_train))
 test_ds = tf.data.Dataset.from_tensor_slices((images_test, labels_test))
 
-train_ds = train_ds.batch(BATCH_SIZE)
-test_ds = test_ds.batch(BATCH_SIZE)
+train_ds = train_ds.shuffle(SHUFFLE_SIZE).batch(BATCH_SIZE)
+test_ds = test_ds.shuffle(SHUFFLE_SIZE).batch(BATCH_SIZE)
 
 print(images_train.shape)
 print(labels_train.shape)
