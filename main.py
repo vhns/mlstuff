@@ -1,5 +1,5 @@
-#!/usr/bin/python3
 from PIL import Image
+from sklearn import metrics
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
@@ -30,6 +30,9 @@ def convert_label(label):
     else:
         print("missing label")
 
+# Change this to rely exclusively on Tensorflow's
+# tf.keras.utils.load_img and  tf.keras.utils.img_to_array
+# (Should be better performant and reliable(?)).
 def generate_arrays(csv_path, image_array, label_array):
         with open(csv_path) as csvfile:
             conjunto = csv.reader(csvfile)
@@ -79,21 +82,33 @@ plt.show()
 model = tf.keras.Sequential([
     tf.keras.layers.Flatten(input_shape=(64, 64, 3)),
     tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(10)
+    tf.keras.layers.Dense(2, activation='softmax')
 ])
 
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-model.fit(images_train, labels_train, epochs=10)
+model.fit(images_train, labels_train, epochs=50)
 
 test_loss, test_acc = model.evaluate(images_test,  labels_test, verbose=2)
 
 print('\nTest accuracy:', test_acc)
 
-probability_model = tf.keras.Sequential([model,
-                                         tf.keras.layers.Softmax()])
 
-predictions = probability_model.predict(images_test)
+# As "activation=max" is being specificied in "model = ",
+# there's no real need to create a prediction model with softmax specified.
+#probability_model = tf.keras.Sequential([model,
+#                                         tf.keras.layers.Softmax()])
+model.save('asjdlkasjld.hdf5')
+predictions = model.predict(images_test)
+
+
+
+metrics.accuracy_score(np.argmax(predictions, axis=1), labels_test)
+
+
 print(f'\nPredictions: {predictions}')
+
+with open('test_save_model.img', 'wb') as f:
+    f.write()
