@@ -10,6 +10,7 @@ import tensorflow as tf
 path_test='./filelist_test.txt'
 path_train='./filelist_train.txt'
 plt.switch_backend('GTK3Agg')
+checkpoint_filepath = './tmp/checkpoint'
 
 BATCH_SIZE = 64
 SHUFFLE_SIZE = 240
@@ -49,6 +50,20 @@ def generate_arrays(csv_path, image_array, label_array):
                 image_array.append(img_as_array)
                 label_array.append(convert_label(label))
         image_array = np.array(rescaling_RGB(image_array))
+
+model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
+        filepath = checkpoint_filepath,
+        #        Disabled for now as we don't have a parser flag for it
+        #        and I arbitrarily want to save the entire model for
+        #        later inspection.
+        #        save_weights_only = true
+        
+        #        Disabled per the same logic as above
+        #        save_best_only=True
+        monitor="val_accuracy",
+        # Default value, but we'll specify it either way 
+        save_freq="epoch")
+        
 
 
 generate_arrays(path_test, images_test, labels_test)
@@ -103,7 +118,7 @@ model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-model.fit(train_ds, epochs=50)
+model.fit(train_ds, epochs=50, callbacks=[model_checkpoint_callback])
 
 test_loss, test_acc = model.evaluate(images_test,  labels_test, verbose=2)
 
