@@ -2,5 +2,7 @@
 *.img
 *.swp
 *.txt
+*.keras
 PKLot
+.venv
 venv

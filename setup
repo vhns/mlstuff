@@ -6,4 +6,4 @@ source venv/bin/activate
 
 
 # Switch the backend to GTK3
-plt.switch_backend('GTK3Agg')
+#plt.switch_backend('GTK3Agg')

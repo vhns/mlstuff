@@ -1,2 +1,2 @@
 #pip install pygobject nvidia-cudnn-cu11==8.5.0.96 tensorflow tensorrt matplotlib
-pip install pygobject tensorflow==2.12.0 tensorrt matplotlib tensorflow_datasets
+pip install pygobject tensorflow==2.12.0 tensorrt matplotlib tensorflow_datasets scikit-learn
