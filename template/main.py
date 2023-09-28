@@ -141,10 +141,10 @@ def train_model(dataset):
         tf.keras.layers.Dense(128, activation='relu'),
         tf.keras.layers.Dense(2, activation='softmax')
     ])
-    model.compile(optimizer=arguments().optimizer,
+    model = model.compile(optimizer=arguments().optimizer,
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
-    model.fit(dataset, epochs=arguments().epochs)
+    model = model.fit(dataset, epochs=arguments().epochs)
     return model
 
 def test_model(model, test_ds):
@@ -169,6 +169,8 @@ if __name__ == '__main__':
     plt.switch_backend(arguments().backend)
     show_sample(train_ds, train_images, train_labels)
     model = train_model(train_ds)
+    print(f"Model:\n {model.as_numpy_iterator()}")
+    print(f"Test ds:\n {test_ds.as_numpy_iterator()}")
     save_model(model)
     test_model(model, test_ds)
     predict_model(model, test_ds)
